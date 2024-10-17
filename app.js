@@ -2,6 +2,7 @@ require("dotenv").config(); // Load environment variables from .env file
 const express = require("express");
 const cors=require('cors');
 const { connectProducer,consumeKafka } = require("./Kafka/service");
+const axios=require('axios');
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -15,10 +16,14 @@ app.use(express.urlencoded({ extended: false }));
 consumeKafka();
 
 
+
 app.post("/post-data", async(req, res) => {
   await connectProducer(req.body.data);
-  res.send({ message: "data passed to queue successfully" });
+  res.send({ message: "video url passed to queue successfully" });
 });
+
+
+
 
 
 app.listen(port, () => {

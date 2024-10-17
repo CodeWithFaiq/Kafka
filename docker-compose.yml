@@ -1,9 +1,10 @@
-
+version: '2'
 services:
   zookeeper:
     image: wurstmeister/zookeeper:latest
     ports:
       - "2181:2181"
+    restart: always  # Add this line for automatic restart
 
   kafka:
     image: wurstmeister/kafka:latest
@@ -19,6 +20,7 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    restart: always  # Add this line for automatic restart
 
   backend:  
     build:  
@@ -30,4 +32,5 @@ services:
       KAFKA_BROKER_URL: "kafka:9093" 
     depends_on:
       - zookeeper  
-      - kafka      
+      - kafka  
+    restart: always  # Add this line for automatic restart
